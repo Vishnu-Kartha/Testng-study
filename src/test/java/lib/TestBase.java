@@ -1,8 +1,12 @@
 package lib;
 
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.service.ExtentTestManager;
+import com.aventstack.extentreports.testng.listener.ExtentITestListenerClassAdapter;
 import org.testng.annotations.*;
-
+@Listeners(ExtentITestListenerClassAdapter.class)
 public class TestBase {
+    protected String browser;
     @BeforeSuite
     protected void beforeSuite(){
         System.out.println("Before Suite");
@@ -22,6 +26,7 @@ public class TestBase {
     @BeforeClass
     @Parameters("browser")
     protected void beforeClass(String browser){
+        this.browser = browser;
         System.out.println("Launching browser : "+ browser);
         System.out.println("Before Class");
     }
@@ -36,6 +41,9 @@ public class TestBase {
     @AfterMethod
     protected void afterMethod(){
         System.out.println("After Method");
+    }
+    protected void log(Status status, String msg){
+        ExtentTestManager.getTest().log(status, msg);
     }
 
 }
